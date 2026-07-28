@@ -1,0 +1,16 @@
+{
+  "name": "google-orchestrator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Multi-account Google orchestrator — N Gmail mailboxes and N Drives across unrelated domains, behind one API and dashboard.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail",
+    "db:schema": "wrangler d1 execute google-orchestrator --remote --command \"SELECT name FROM sqlite_master WHERE type='table'\"",
+    "db:accounts": "wrangler d1 execute google-orchestrator --remote --command \"SELECT account_id,email,status,scopes FROM accounts\""
+  },
+  "devDependencies": {
+    "wrangler": "^4.81.0"
+  }
+}

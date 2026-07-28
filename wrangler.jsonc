@@ -1,0 +1,58 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "CHANGE-ME",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-07-01",
+
+  // Dashboard is served from ./public, but the Worker runs first so it can
+  // gate every path behind a session cookie. Nothing here is world-open.
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "CHANGE-ME",
+      "database_id": "PASTE_D1_UUID"
+    }
+  ],
+
+  "kv_namespaces": [
+    {
+      "binding": "CACHE",
+      "id": "PASTE_KV_ID"
+    }
+  ],
+
+  "vars": {
+    "ENVIRONMENT": "production",
+    "MAX_FANOUT_CONCURRENCY": "6",
+    "PER_ACCOUNT_TIMEOUT_MS": "15000",
+    "TOKEN_REFRESH_SKEW_SECONDS": "300"
+  },
+
+  "queues": {
+    "producers": [
+      { "binding": "SWEEP_QUEUE", "queue": "CHANGE-ME-sweeps" }
+    ],
+    "consumers": [
+      {
+        "queue": "CHANGE-ME-sweeps",
+        "max_batch_size": 10,
+        "max_batch_timeout": 5,
+        "max_retries": 3,
+        "dead_letter_queue": "CHANGE-ME-sweeps-dlq"
+      }
+    ]
+  },
+
+  "triggers": { "crons": ["*/15 * * * *"] },
+
+  "observability": { "enabled": true }
+
+  // Phase 4 adds:  "r2_buckets": [{ "binding": "ARTIFACTS", "bucket_name": "google-orchestrator-artifacts" }]
+  // Phase 5 adds:  queues producer/consumer + SweepRunner durable object + [triggers] crons
+}
