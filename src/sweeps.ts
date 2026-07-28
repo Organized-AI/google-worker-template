@@ -182,6 +182,12 @@ export async function startRun(
   }
 
   // One message per account. Never one giant job.
+  if (typeof env.SWEEP_QUEUE?.sendBatch !== 'function') {
+    throw Object.assign(
+      new Error('sweeps are not enabled: create the queues and uncomment the queues/triggers blocks in wrangler.jsonc'),
+      { status: 503 }
+    );
+  }
   await env.SWEEP_QUEUE.sendBatch(
     accounts.map((a) => ({
       body: {

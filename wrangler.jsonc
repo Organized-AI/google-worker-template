@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "CHANGE-ME",
+  "name": "change-me",
   "main": "src/index.ts",
   "compatibility_date": "2026-07-01",
 
@@ -15,7 +15,7 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "CHANGE-ME",
+      "database_name": "change-me",
       "database_id": "PASTE_D1_UUID"
     }
   ],
@@ -33,24 +33,25 @@
     "PER_ACCOUNT_TIMEOUT_MS": "15000",
     "TOKEN_REFRESH_SKEW_SECONDS": "300"
   },
-
-  "queues": {
-    "producers": [
-      { "binding": "SWEEP_QUEUE", "queue": "CHANGE-ME-sweeps" }
-    ],
-    "consumers": [
-      {
-        "queue": "CHANGE-ME-sweeps",
-        "max_batch_size": 10,
-        "max_batch_timeout": 5,
-        "max_retries": 3,
-        "dead_letter_queue": "CHANGE-ME-sweeps-dlq"
-      }
-    ]
-  },
-
-  "triggers": { "crons": ["*/15 * * * *"] },
-
+  // SWEEPS ARE OPT-IN. Uncomment this block AND the "triggers" line after creating
+  // the queues:  wrangler queues create change-me-sweeps
+  //              wrangler queues create change-me-sweeps-dlq
+  // Without them the Worker deploys and runs; /api/sweeps/:id/run returns a clear 503.
+  // "queues": {
+  // "producers": [
+  // { "binding": "SWEEP_QUEUE", "queue": "change-me-sweeps" }
+  // ],
+  // "consumers": [
+  // {
+  // "queue": "change-me-sweeps",
+  // "max_batch_size": 10,
+  // "max_batch_timeout": 5,
+  // "max_retries": 3,
+  // "dead_letter_queue": "change-me-sweeps-dlq"
+  // }
+  // ]
+  // },
+  // "triggers": { "crons": ["*/15 * * * *"] },
   "observability": { "enabled": true }
 
   // Phase 4 adds:  "r2_buckets": [{ "binding": "ARTIFACTS", "bucket_name": "google-orchestrator-artifacts" }]

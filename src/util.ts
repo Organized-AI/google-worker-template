@@ -7,7 +7,7 @@ export interface Env {
   DB: D1Database;
   CACHE: KVNamespace;
   ASSETS: Fetcher;
-  SWEEP_QUEUE: Queue;
+  SWEEP_QUEUE?: Queue;
   ENVIRONMENT: string;
   MAX_FANOUT_CONCURRENCY: string;
   PER_ACCOUNT_TIMEOUT_MS: string;

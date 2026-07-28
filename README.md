@@ -12,6 +12,7 @@ Encrypted token vault (AES-GCM, per-account HKDF keys, rotation-safe refresh), P
 
 ```bash
 git clone https://github.com/organized-ai/google-worker-template my-worker && cd my-worker
+# rename: set "name" in wrangler.jsonc (lowercase, dashes) — everything else keys off it
 # 1. provision (GCP project, APIs, D1, KV, schema, secrets)
 ./scripts/gcp-provision.sh my-worker my-gcp-project gmail drive
 # 2. paste the printed ids into wrangler.jsonc, then
@@ -20,6 +21,10 @@ wrangler deploy
 # 4. create the OAuth client in the Console (this part cannot be automated)
 # 5. ./scripts/set-google-secrets.sh ~/Downloads/client_secret_*.json
 ```
+
+## Sweeps are opt-in
+
+The Worker deploys and runs with no queues. To enable scheduled sweeps, create the two queues (`wrangler queues create <name>-sweeps` and `<name>-sweeps-dlq`), then uncomment the `queues` and `triggers` blocks in `wrangler.jsonc`. Until then, firing a sweep returns a clear 503 instead of a TypeError.
 
 ## Adapting it to a different Google API
 
