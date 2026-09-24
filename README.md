@@ -39,3 +39,9 @@ Google Ads needs a `developer-token` header on every call in addition to the bea
 ## Design rules worth keeping
 
 No mutating route defaults to all accounts. No send route infers its from-address. One account failing never fails a fan-out. Refresh tokens never leave the Worker. Audit rows are written before execution, not after.
+
+---
+
+Guide: [guide.organizedai.vip/synter-gap-plan/](https://guide.organizedai.vip/synter-gap-plan/)
+
+Maintained by Jordaaan Hill ([LinkedIn](https://www.linkedin.com/in/jordaaanhill)).
